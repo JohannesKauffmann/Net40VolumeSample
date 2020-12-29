@@ -19,9 +19,15 @@ namespace LibVLCSharp.Windows.Net40.Sample
             Debug.WriteLine("Setting volume to 20 percent");
             mp.Volume = 20;
             mp.Playing += Mp_Playing;
+            mp.VolumeChanged += Mp_VolumeChanged;
             mp.Play();
 
             Console.ReadKey();
+        }
+
+        private static void Mp_VolumeChanged(object sender, MediaPlayerVolumeChangedEventArgs e)
+        {
+            Debug.WriteLine("Volume changed! New volume: " + e.Volume);
         }
 
         private static void Mp_Playing(object sender, EventArgs e)
