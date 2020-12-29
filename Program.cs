@@ -27,6 +27,7 @@ namespace LibVLCSharp.Windows.Net40.Sample
         private static void Mp_Playing(object sender, EventArgs e)
         {
             Debug.WriteLine("Playing event! Volume: " + mp.Volume);
+            mp.Volume = 100;
         }
     }
 }
