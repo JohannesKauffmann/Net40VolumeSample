@@ -1,6 +1,7 @@
-﻿using LibVLCSharp.Shared;
+using LibVLCSharp.Shared;
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace LibVLCSharp.Windows.Net40.Sample
 {
@@ -11,7 +12,10 @@ namespace LibVLCSharp.Windows.Net40.Sample
         {
             Core.Initialize();
 
-            using var libVLC = new LibVLC(enableDebugLogs: false);
+            string[] options = new string[1];
+            options[0] = "--no-volume-save";
+            using var libVLC = new LibVLC(enableDebugLogs: false, options);
+
             using var media = new Media(libVLC, new Uri("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"));
             mp = new MediaPlayer(media);
             mp.Playing += Mp_Playing;
@@ -29,10 +33,12 @@ namespace LibVLCSharp.Windows.Net40.Sample
             Debug.WriteLine("Volume changed! New volume: " + e.Volume);
         }
 
-        private static void Mp_Playing(object sender, EventArgs e)
+        private async static void Mp_Playing(object sender, EventArgs e)
         {
-            Debug.WriteLine("Playing event! Volume: " + mp.Volume);
-            mp.Volume = 100;
+            await Task.Run(() =>
+            {
+                Debug.WriteLine("Playing event! Volume: " + mp.Volume);
+            });
         }
     }
 }
